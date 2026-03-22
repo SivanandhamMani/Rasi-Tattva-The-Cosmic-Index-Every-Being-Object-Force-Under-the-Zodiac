@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rasi Tattva – The Living Cosmos</title>
+<title>Rasi Tattva – The Living Cosmos / ராசி தத்துவம் – உயிரோடும் பிரபஞ்சம்</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
-   UNIFIED STYLE — BLACK, WHITE & GOLD
-   Used across ALL parts of Rasi Tattva
+   DARK THEME (default)
 ═══════════════════════════════════════════ */
 :root {
   --bg:        #0a0a0a;
@@ -22,6 +21,29 @@
   --muted:     #7a7060;
   --border:    rgba(201,168,76,0.2);
   --border-wk: rgba(255,255,255,0.06);
+  --toggle-bg: #1a1a1a;
+  --toggle-border: rgba(201,168,76,0.3);
+  --toggle-shadow: 0 4px 24px rgba(0,0,0,0.5);
+}
+
+/* ═══════════════════════════════════════════
+   LIGHT THEME
+═══════════════════════════════════════════ */
+[data-theme="light"] {
+  --bg:        #faf7f2;
+  --bg2:       #f2ede4;
+  --bg3:       #ede8df;
+  --gold:      #9a6e1e;
+  --gold-lt:   #7a5012;
+  --gold-dim:  rgba(154,110,30,0.12);
+  --white:     #1a1208;
+  --white-dim: rgba(26,18,8,0.75);
+  --muted:     #7a6840;
+  --border:    rgba(154,110,30,0.25);
+  --border-wk: rgba(0,0,0,0.08);
+  --toggle-bg: #f0ebe0;
+  --toggle-border: rgba(154,110,30,0.3);
+  --toggle-shadow: 0 4px 24px rgba(0,0,0,0.12);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -31,6 +53,46 @@ body{
   color:var(--white);
   font-family:'Cormorant Garamond',Georgia,serif;
   line-height:1.7;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* ── FLOATING CONTROLS ── */
+.controls-bar {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 1000;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ctrl-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  color: var(--gold);
+  font-family: 'Raleway', sans-serif;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: var(--toggle-shadow);
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+}
+.ctrl-btn:hover {
+  background: var(--gold);
+  color: var(--bg);
+  border-color: var(--gold);
+}
+.ctrl-btn svg {
+  width: 14px; height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
 }
 
 /* ── PAGE WRAPPER ── */
@@ -40,7 +102,11 @@ body{
   padding:24px 20px;
 }
 
-/* ── PART DIVIDER (between merged parts) ── */
+/* Language panels */
+.lang-panel { display: none; }
+.lang-panel.active { display: block; }
+
+/* ── PART DIVIDER ── */
 .part-break{
   border:none;
   border-top:1px solid var(--border);
@@ -56,6 +122,7 @@ body{
   padding:0 14px;
   color:var(--gold);
   font-size:14px;
+  transition: background 0.35s ease;
 }
 
 /* ── HERO / COVER ── */
@@ -204,6 +271,7 @@ body{
 .core-cell{
   background:var(--bg2);
   padding:16px 14px;
+  transition: background 0.35s ease;
 }
 .core-lbl{
   font-family:'Raleway',sans-serif;
@@ -224,6 +292,7 @@ body{
   border:1px solid var(--border);
   padding:18px 16px;
   background:rgba(201,168,76,0.03);
+  transition: background 0.35s ease;
 }
 .tattva-lbl{
   font-family:'Raleway',sans-serif;
@@ -335,14 +404,16 @@ body{
   font-family:'Raleway',sans-serif;
   font-size:9px;letter-spacing:4px;
   color:var(--gold);opacity:.7;
+  transition: background 0.35s ease;
 }
 .essence-txt{
   font-family:'Cinzel Decorative',serif;
   font-size:clamp(13px,2.2vw,18px);
-  color:var(--gold-lt);line-height:1.7;
+  color:var(--gold-lt);
+  line-height:1.7;
 }
 
-/* ── FRAMEWORK CARDS ── */
+/* ── FW GRID ── */
 .fw-grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
@@ -372,6 +443,7 @@ body{
   padding:11px 14px;
   border:1px solid var(--border-wk);
   background:var(--bg2);
+  transition: background 0.35s ease;
 }
 .sp-num{
   font-family:'Cinzel Decorative',serif;
@@ -405,12 +477,12 @@ body{
   position:relative;
 }
 .layers-box::before{
-  content:'THE FOUR LAYERS';
+  content:'Four Layers';
   position:absolute;top:-9px;left:28px;
   background:var(--bg);padding:0 12px;
   font-family:'Raleway',sans-serif;
-  font-size:9px;letter-spacing:4px;
-  color:var(--gold);
+  font-size:9px;letter-spacing:4px;color:var(--gold);
+  transition: background 0.35s ease;
 }
 .layer-row{display:flex;gap:18px;align-items:flex-start;margin-bottom:22px;}
 .layer-row:last-child{margin-bottom:0;}
@@ -426,33 +498,137 @@ body{
 }
 .layer-desc{font-size:14px;color:var(--white-dim);line-height:1.7;}
 
-/* ── HOW TO USE ── */
+/* ── STEPS ── */
 .steps{counter-reset:steps;margin:26px 0;}
-.step{
-  counter-increment:steps;
-  display:flex;gap:18px;
-  margin-bottom:24px;align-items:flex-start;
-}
+.step{counter-increment:steps;display:flex;gap:18px;margin-bottom:24px;align-items:flex-start;}
 .step::before{
   content:counter(steps);
   font-family:'Cinzel Decorative',serif;
-  font-size:18px;color:var(--gold);opacity:.45;
-  min-width:28px;margin-top:2px;
+  font-size:18px;color:var(--gold);opacity:.45;min-width:28px;margin-top:2px;
 }
 .step-txt{font-size:15px;line-height:1.8;color:var(--white-dim);}
 .step-txt strong{color:var(--gold-lt);font-weight:600;}
 
-/* ── CLOSING ── */
-.closing{text-align:center;padding:70px 20px;}
-.closing-verse{
-  font-style:italic;font-weight:300;
-  font-size:clamp(15px,2.2vw,20px);
-  color:var(--white-dim);line-height:2.1;
-  max-width:560px;margin:0 auto 36px;
+/* ── RASI TABLE ── */
+.rasi-table{
+  width:100%;border-collapse:collapse;
+  margin:28px 0;font-size:14px;
 }
-.next-label{
+.rasi-table th{
   font-family:'Raleway',sans-serif;
-  font-size:10px;letter-spacing:5px;
+  font-size:9px;letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--gold);
+  padding:12px 16px;text-align:left;
+  border-bottom:1px solid var(--border);
+  background:rgba(201,168,76,0.04);
+}
+.rasi-table td{
+  padding:11px 16px;
+  border-bottom:1px solid var(--border-wk);
+  color:var(--white-dim);
+}
+.rasi-table tr:hover td{background:rgba(201,168,76,0.04);}
+.rasi-sign{color:var(--gold-lt);font-style:italic;}
+
+/* ── MEMORY BOX ── */
+.memory-box{
+  border:1px solid var(--border);
+  margin:32px 0;
+  background:rgba(201,168,76,0.02);
+}
+.memory-row{
+  display:flex;align-items:baseline;gap:16px;
+  padding:11px 18px;
+  border-bottom:1px solid var(--border-wk);
+}
+.memory-row:last-child{border-bottom:none;}
+.mem-cat{
+  font-family:'Raleway',sans-serif;
+  font-size:9px;letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--gold);opacity:.6;
+  min-width:100px;flex-shrink:0;
+}
+.mem-val{font-size:14px;color:var(--white-dim);}
+
+/* ── PLANET HERO ── */
+.planet-hero{
+  text-align:center;
+  padding:64px 20px 40px;
+}
+.planet-symbol{
+  font-size:72px;line-height:1;
+  color:var(--gold);
+  text-shadow:0 0 40px rgba(201,168,76,0.3);
+  margin-bottom:14px;display:block;
+}
+.planet-name{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(28px,6vw,54px);
+  color:var(--gold-lt);
+  letter-spacing:3px;line-height:1;
+  margin-bottom:10px;
+}
+.planet-tag{
+  font-style:italic;font-weight:300;
+  font-size:clamp(14px,2vw,18px);
+  color:var(--muted);margin-bottom:22px;
+}
+.planet-intro{
+  font-size:clamp(15px,2vw,17px);
+  color:var(--white-dim);
+  max-width:640px;margin:0 auto;
+  line-height:1.9;
+}
+
+/* ── ENDING ── */
+.ending{
+  text-align:center;
+  padding:80px 20px 100px;
+}
+.ending-ring{
+  width:120px;height:120px;
+  border-radius:50%;
+  border:1px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 40px;
+  box-shadow:0 0 40px rgba(201,168,76,0.1);
+}
+.ending-icon{font-size:44px;color:var(--gold);}
+.ending-title{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(22px,4vw,36px);
+  color:var(--gold-lt);
+  margin-bottom:10px;
+}
+.ending-sub{
+  font-style:italic;color:var(--muted);
+  font-size:clamp(14px,2vw,17px);
+  margin-bottom:28px;
+}
+.ending-verse{
+  font-style:italic;font-weight:300;
+  font-size:clamp(16px,2.4vw,21px);
+  color:var(--white-dim);
+  line-height:2;
+  max-width:560px;margin:0 auto 28px;
+}
+.ending-note{
+  font-family:'Raleway',sans-serif;
+  font-size:9px;letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--gold);opacity:.5;
+}
+
+/* ── NEXT SIGN ── */
+.next-sign{
+  text-align:center;
+  padding:60px 20px;
+}
+.next-lbl{
+  font-family:'Raleway',sans-serif;
+  font-size:9px;letter-spacing:5px;
   text-transform:uppercase;
   color:var(--muted);margin-bottom:12px;
 }
@@ -461,10 +637,43 @@ body{
   font-size:clamp(18px,3.5vw,28px);
   color:var(--gold-lt);opacity:.5;
 }
+
+/* Tamil layers-box label override */
+[lang="ta"] .layers-box::before,
+.lang-panel-ta .layers-box::before {
+  content: 'நான்கு அடுக்குகள்';
+}
+[lang="ta"] .essence-box::before,
+.lang-panel-ta .essence-box::before {
+  content: 'ஒரே வரி சாரம்';
+}
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════
+     FLOATING CONTROLS
+══════════════════════════════════════ -->
+<div class="controls-bar">
+  <!-- Theme Toggle -->
+  <button class="ctrl-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle Theme">
+    <svg id="theme-icon-dark" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <svg id="theme-icon-light" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3" stroke="currentColor" stroke-width="2"/><line x1="12" y1="21" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="currentColor" stroke-width="2"/><line x1="1" y1="12" x2="3" y2="12" stroke="currentColor" stroke-width="2"/><line x1="21" y1="12" x2="23" y2="12" stroke="currentColor" stroke-width="2"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="currentColor" stroke-width="2"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="currentColor" stroke-width="2"/></svg>
+    <span id="theme-label">Light</span>
+  </button>
+  <!-- Language Toggle -->
+  <button class="ctrl-btn" id="lang-btn" onclick="toggleLang()" title="Switch Language">
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+    <span id="lang-label">தமிழ்</span>
+  </button>
+</div>
+
 <div class="page">
+
+<!-- ══════════════════════════════════════
+     ENGLISH PANEL
+══════════════════════════════════════ -->
+<div class="lang-panel active" id="panel-en">
 
 
 <!-- ████████████████████████████████████████
@@ -2697,121 +2906,13 @@ body{
 </div>
 
 
-</div><!-- /page -->
-</body>
-</html>
 
+</div><!-- /panel-en -->
 
-
-
-
-
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ராசி தத்துவம் – உயிரோடும் பிரபஞ்சம்</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:#0a0a0a; --bg2:#111111; --gold:#c9a84c; --gold-lt:#e8c97a;
-  --white:#f5f0e8; --white-dim:rgba(245,240,232,0.7); --muted:#7a7060;
-  --border:rgba(201,168,76,0.2); --border-wk:rgba(255,255,255,0.06);
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;line-height:1.7;}
-.page{max-width:860px;margin:0 auto;padding:24px 20px;}
-.part-break{border:none;border-top:1px solid var(--border);margin:80px 0;position:relative;}
-.part-break::after{content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 14px;color:var(--gold);font-size:14px;}
-.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;}
-.hero-ring{width:180px;height:180px;border-radius:50%;border:1px solid var(--gold);box-shadow:0 0 50px rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:48px;position:relative;}
-.hero-ring::before{content:'';position:absolute;inset:12px;border-radius:50%;border:1px solid var(--border);}
-.hero-icon{font-size:64px;color:var(--gold);line-height:1;}
-.eyebrow{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:18px;}
-.book-title{font-family:'Cinzel Decorative',serif;font-size:clamp(30px,7vw,58px);color:var(--gold-lt);letter-spacing:3px;line-height:1.15;margin-bottom:14px;}
-.book-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(16px,2.5vw,22px);color:var(--muted);margin-bottom:48px;}
-.sign-hero{text-align:center;padding:80px 20px 50px;}
-.sign-symbol{font-size:80px;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:20px;display:block;}
-.sign-number{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sign-name{font-family:'Cinzel Decorative',serif;font-size:clamp(36px,8vw,68px);color:var(--gold-lt);letter-spacing:4px;line-height:1;margin-bottom:14px;}
-.sign-tagline{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,20px);color:var(--muted);margin-bottom:28px;}
-.sign-intro{font-size:clamp(15px,2vw,17px);color:var(--white-dim);max-width:640px;margin:0 auto;line-height:1.9;}
-.gdivider{display:flex;align-items:center;gap:14px;margin:48px 0;}
-.gdivider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.3;}
-.gdivider-dot{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
-.section{padding:52px 0;border-bottom:1px solid var(--border-wk);}
-.section:last-child{border-bottom:none;}
-.sec-label{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:18px;}
-.sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(17px,3.2vw,26px);color:var(--gold-lt);margin-bottom:24px;line-height:1.3;}
-.body-text{font-size:clamp(15px,1.9vw,17px);color:var(--white-dim);line-height:1.95;margin-bottom:18px;}
-.italic-note{font-style:italic;font-weight:300;font-size:clamp(16px,2.2vw,19px);color:var(--gold-lt);border-left:2px solid var(--gold);padding:12px 0 12px 20px;margin:24px 0;opacity:.9;}
-.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:24px 0;}
-.core-cell{background:var(--bg2);padding:16px 14px;}
-.core-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:6px;}
-.core-val{font-size:15px;color:var(--white);}
-.tattva-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0;}
-.tattva-card{border:1px solid var(--border);padding:18px 16px;background:rgba(201,168,76,0.03);}
-.tattva-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:7px;}
-.tattva-val{font-size:14px;color:var(--white-dim);line-height:1.55;}
-.cond-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0;}
-@media(max-width:480px){.cond-box{grid-template-columns:1fr;}}
-.cond-card{padding:18px;border:1px solid var(--border);}
-.cond-card.weak{border-left:3px solid rgba(255,255,255,0.2);}
-.cond-card.strong{border-left:3px solid var(--gold);}
-.cond-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;opacity:.6;margin-bottom:8px;}
-.cond-card.weak .cond-lbl{color:var(--white);}
-.cond-card.strong .cond-lbl{color:var(--gold);}
-.cond-txt{font-size:14px;color:var(--white-dim);line-height:1.7;}
-.list-group{margin:22px 0;}
-.list-group-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold-lt);letter-spacing:1px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(201,168,76,0.12);}
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;}
-.item-tag{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--white-dim);line-height:1.5;padding:5px 0;}
-.item-tag::before{content:'▸';color:var(--gold);font-size:9px;margin-top:4px;flex-shrink:0;opacity:.6;}
-.trans-table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;}
-.trans-table th{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.6;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:rgba(201,168,76,0.04);}
-.trans-table td{padding:10px 14px;border-bottom:1px solid var(--border-wk);color:var(--white-dim);vertical-align:top;}
-.trans-table tr:hover td{background:rgba(201,168,76,0.04);}
-.arr{color:var(--gold);opacity:.4;text-align:center;width:36px;}
-.force-section{margin:22px 0;}
-.force-cat{margin-bottom:22px;}
-.force-cat-title{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:12px;}
-.force-pills{display:flex;flex-wrap:wrap;gap:8px;}
-.pill{padding:5px 14px;border:1px solid var(--border);font-size:13px;color:var(--white-dim);background:rgba(201,168,76,0.04);}
-.essence-box{text-align:center;padding:44px 28px;border:1px solid var(--border);margin:44px 0;background:rgba(201,168,76,0.03);position:relative;}
-.essence-box::before{content:'ஒரே வரி சாரம்';position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--bg);padding:0 14px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);opacity:.7;}
-.essence-txt{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,2.2vw,18px);color:var(--gold-lt);line-height:1.7;}
-.fw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin:32px 0;}
-.fw-card{border:1px solid var(--border);padding:22px 18px;text-align:center;background:rgba(201,168,76,0.03);}
-.fw-icon{font-size:26px;margin-bottom:10px;display:block;}
-.fw-title{font-family:'Cinzel Decorative',serif;font-size:11px;letter-spacing:2px;color:var(--gold);margin-bottom:7px;}
-.fw-desc{font-size:13px;color:var(--muted);line-height:1.55;}
-.signs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:28px 0;}
-@media(max-width:560px){.signs-grid{grid-template-columns:repeat(2,1fr);}}
-.sign-pill-sm{display:flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid var(--border-wk);background:var(--bg2);}
-.sp-num{font-family:'Cinzel Decorative',serif;font-size:9px;color:var(--gold);opacity:.5;min-width:16px;}
-.sp-name{font-size:14px;color:var(--white);}
-.sp-ruler{font-size:12px;color:var(--muted);font-style:italic;margin-left:auto;}
-.planets-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:24px 0;}
-.planet-item{padding:14px 16px;border-left:2px solid var(--gold);background:rgba(201,168,76,0.03);}
-.planet-name{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold-lt);margin-bottom:5px;}
-.planet-theme{font-size:12px;color:var(--muted);line-height:1.5;}
-.layers-box{border:1px solid var(--border);padding:32px;margin:32px 0;background:rgba(201,168,76,0.03);position:relative;}
-.layers-box::before{content:'நான்கு அடுக்குகள்';position:absolute;top:-9px;left:28px;background:var(--bg);padding:0 12px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);}
-.layer-row{display:flex;gap:18px;align-items:flex-start;margin-bottom:22px;}
-.layer-row:last-child{margin-bottom:0;}
-.layer-num{font-family:'Cinzel Decorative',serif;font-size:26px;color:rgba(201,168,76,0.15);min-width:38px;line-height:1;margin-top:2px;}
-.layer-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold);margin-bottom:5px;letter-spacing:1px;}
-.layer-desc{font-size:14px;color:var(--white-dim);line-height:1.7;}
-.steps{counter-reset:steps;margin:26px 0;}
-.step{counter-increment:steps;display:flex;gap:18px;margin-bottom:24px;align-items:flex-start;}
-.step::before{content:counter(steps);font-family:'Cinzel Decorative',serif;font-size:18px;color:var(--gold);opacity:.45;min-width:28px;margin-top:2px;}
-.step-txt{font-size:15px;line-height:1.8;color:var(--white-dim);}
-.step-txt strong{color:var(--gold-lt);font-weight:600;}
-</style>
-</head>
-<body>
-<div class="page">
+<!-- ══════════════════════════════════════
+     TAMIL PANEL
+══════════════════════════════════════ -->
+<div class="lang-panel lang-panel-ta" id="panel-ta">
 
 <!-- ████ பகுதி 1 — அறிமுகம் ████ -->
 
@@ -3213,77 +3314,6 @@ body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Ge
 
 <div class="essence-box"><div class="essence-txt">ரிஷபம் அழகு, ஆறுதல், பாதுகாப்பிற்கான விருப்பத்தை ஆள்கிறது —<br>பூமியை செல்வமாக மாற்றும் சக்தி.</div></div>
 
-</div><!-- /page -->
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ராசி தத்துவம் – மிதுனம் · கடகம் · சிம்மம்</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0a0a0a;--bg2:#111111;--gold:#c9a84c;--gold-lt:#e8c97a;--white:#f5f0e8;--white-dim:rgba(245,240,232,0.7);--muted:#7a7060;--border:rgba(201,168,76,0.2);--border-wk:rgba(255,255,255,0.06);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;line-height:1.7;}
-.page{max-width:860px;margin:0 auto;padding:24px 20px;}
-.part-break{border:none;border-top:1px solid var(--border);margin:80px 0;position:relative;}
-.part-break::after{content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 14px;color:var(--gold);font-size:14px;}
-.sign-hero{text-align:center;padding:80px 20px 50px;}
-.sign-symbol{font-size:80px;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:20px;display:block;}
-.sign-number{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sign-name{font-family:'Cinzel Decorative',serif;font-size:clamp(36px,8vw,68px);color:var(--gold-lt);letter-spacing:4px;line-height:1;margin-bottom:14px;}
-.sign-tagline{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,20px);color:var(--muted);margin-bottom:28px;}
-.sign-intro{font-size:clamp(15px,2vw,17px);color:var(--white-dim);max-width:640px;margin:0 auto;line-height:1.9;}
-.eyebrow{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:18px;}
-.section{padding:52px 0;border-bottom:1px solid var(--border-wk);}
-.section:last-child{border-bottom:none;}
-.sec-label{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:18px;}
-.sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(17px,3.2vw,26px);color:var(--gold-lt);margin-bottom:24px;line-height:1.3;}
-.body-text{font-size:clamp(15px,1.9vw,17px);color:var(--white-dim);line-height:1.95;margin-bottom:18px;}
-.italic-note{font-style:italic;font-weight:300;font-size:clamp(16px,2.2vw,19px);color:var(--gold-lt);border-left:2px solid var(--gold);padding:12px 0 12px 20px;margin:24px 0;opacity:.9;}
-.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:24px 0;}
-.core-cell{background:var(--bg2);padding:16px 14px;}
-.core-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:6px;}
-.core-val{font-size:15px;color:var(--white);}
-.tattva-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0;}
-.tattva-card{border:1px solid var(--border);padding:18px 16px;background:rgba(201,168,76,0.03);}
-.tattva-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:7px;}
-.tattva-val{font-size:14px;color:var(--white-dim);line-height:1.55;}
-.cond-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0;}
-@media(max-width:480px){.cond-box{grid-template-columns:1fr;}}
-.cond-card{padding:18px;border:1px solid var(--border);}
-.cond-card.weak{border-left:3px solid rgba(255,255,255,0.2);}
-.cond-card.strong{border-left:3px solid var(--gold);}
-.cond-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;opacity:.6;margin-bottom:8px;}
-.cond-card.weak .cond-lbl{color:var(--white);}
-.cond-card.strong .cond-lbl{color:var(--gold);}
-.cond-txt{font-size:14px;color:var(--white-dim);line-height:1.7;}
-.list-group{margin:22px 0;}
-.list-group-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold-lt);letter-spacing:1px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(201,168,76,0.12);}
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;}
-.item-tag{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--white-dim);line-height:1.5;padding:5px 0;}
-.item-tag::before{content:'▸';color:var(--gold);font-size:9px;margin-top:4px;flex-shrink:0;opacity:.6;}
-.trans-table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;}
-.trans-table th{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.6;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:rgba(201,168,76,0.04);}
-.trans-table td{padding:10px 14px;border-bottom:1px solid var(--border-wk);color:var(--white-dim);vertical-align:top;}
-.trans-table tr:hover td{background:rgba(201,168,76,0.04);}
-.arr{color:var(--gold);opacity:.4;text-align:center;width:36px;}
-.force-section{margin:22px 0;}
-.force-cat{margin-bottom:22px;}
-.force-cat-title{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:12px;}
-.force-pills{display:flex;flex-wrap:wrap;gap:8px;}
-.pill{padding:5px 14px;border:1px solid var(--border);font-size:13px;color:var(--white-dim);background:rgba(201,168,76,0.04);}
-.essence-box{text-align:center;padding:44px 28px;border:1px solid var(--border);margin:44px 0;background:rgba(201,168,76,0.03);position:relative;}
-.essence-box::before{content:'ஒரே வரி சாரம்';position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--bg);padding:0 14px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);opacity:.7;}
-.essence-txt{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,2.2vw,18px);color:var(--gold-lt);line-height:1.7;}
-</style>
-</head>
-<body>
-<div class="page">
 
 <!-- ████ மிதுனம் — ராசி 03 ████ -->
 
@@ -3691,76 +3721,6 @@ body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Ge
 
 <div class="essence-box"><div class="essence-txt">சிம்மம் கண்ணுக்கு தெரியாத சூரியன் போன்ற அதிகாரத்தை ஆள்கிறது —<br>மற்றவர்கள் இயற்கையாக பின்பற்றவைக்கும் சக்தி.</div></div>
 
-</div><!-- /page -->
-</body>
-</html>
-
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ராசி தத்துவம் – கன்னி · துலாம் · விருச்சிகம்</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0a0a0a;--bg2:#111111;--gold:#c9a84c;--gold-lt:#e8c97a;--white:#f5f0e8;--white-dim:rgba(245,240,232,0.7);--muted:#7a7060;--border:rgba(201,168,76,0.2);--border-wk:rgba(255,255,255,0.06);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;line-height:1.7;}
-.page{max-width:860px;margin:0 auto;padding:24px 20px;}
-.part-break{border:none;border-top:1px solid var(--border);margin:80px 0;position:relative;}
-.part-break::after{content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 14px;color:var(--gold);font-size:14px;}
-.sign-hero{text-align:center;padding:80px 20px 50px;}
-.sign-symbol{font-size:80px;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:20px;display:block;}
-.sign-number{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sign-name{font-family:'Cinzel Decorative',serif;font-size:clamp(36px,8vw,68px);color:var(--gold-lt);letter-spacing:4px;line-height:1;margin-bottom:14px;}
-.sign-tagline{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,20px);color:var(--muted);margin-bottom:28px;}
-.sign-intro{font-size:clamp(15px,2vw,17px);color:var(--white-dim);max-width:640px;margin:0 auto;line-height:1.9;}
-.eyebrow{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:18px;}
-.section{padding:52px 0;border-bottom:1px solid var(--border-wk);}
-.section:last-child{border-bottom:none;}
-.sec-label{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:18px;}
-.sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(17px,3.2vw,26px);color:var(--gold-lt);margin-bottom:24px;line-height:1.3;}
-.body-text{font-size:clamp(15px,1.9vw,17px);color:var(--white-dim);line-height:1.95;margin-bottom:18px;}
-.italic-note{font-style:italic;font-weight:300;font-size:clamp(16px,2.2vw,19px);color:var(--gold-lt);border-left:2px solid var(--gold);padding:12px 0 12px 20px;margin:24px 0;opacity:.9;}
-.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:24px 0;}
-.core-cell{background:var(--bg2);padding:16px 14px;}
-.core-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:6px;}
-.core-val{font-size:15px;color:var(--white);}
-.tattva-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0;}
-.tattva-card{border:1px solid var(--border);padding:18px 16px;background:rgba(201,168,76,0.03);}
-.tattva-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:7px;}
-.tattva-val{font-size:14px;color:var(--white-dim);line-height:1.55;}
-.cond-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0;}
-@media(max-width:480px){.cond-box{grid-template-columns:1fr;}}
-.cond-card{padding:18px;border:1px solid var(--border);}
-.cond-card.weak{border-left:3px solid rgba(255,255,255,0.2);}
-.cond-card.strong{border-left:3px solid var(--gold);}
-.cond-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;opacity:.6;margin-bottom:8px;}
-.cond-card.weak .cond-lbl{color:var(--white);}
-.cond-card.strong .cond-lbl{color:var(--gold);}
-.cond-txt{font-size:14px;color:var(--white-dim);line-height:1.7;}
-.list-group{margin:22px 0;}
-.list-group-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold-lt);letter-spacing:1px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(201,168,76,0.12);}
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;}
-.item-tag{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--white-dim);line-height:1.5;padding:5px 0;}
-.item-tag::before{content:'▸';color:var(--gold);font-size:9px;margin-top:4px;flex-shrink:0;opacity:.6;}
-.trans-table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;}
-.trans-table th{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.6;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:rgba(201,168,76,0.04);}
-.trans-table td{padding:10px 14px;border-bottom:1px solid var(--border-wk);color:var(--white-dim);vertical-align:top;}
-.trans-table tr:hover td{background:rgba(201,168,76,0.04);}
-.arr{color:var(--gold);opacity:.4;text-align:center;width:36px;}
-.force-section{margin:22px 0;}
-.force-cat{margin-bottom:22px;}
-.force-cat-title{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:12px;}
-.force-pills{display:flex;flex-wrap:wrap;gap:8px;}
-.pill{padding:5px 14px;border:1px solid var(--border);font-size:13px;color:var(--white-dim);background:rgba(201,168,76,0.04);}
-.essence-box{text-align:center;padding:44px 28px;border:1px solid var(--border);margin:44px 0;background:rgba(201,168,76,0.03);position:relative;}
-.essence-box::before{content:'ஒரே வரி சாரம்';position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--bg);padding:0 14px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);opacity:.7;}
-.essence-txt{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,2.2vw,18px);color:var(--gold-lt);line-height:1.7;}
-</style>
-</head>
-<body>
-<div class="page">
 
 <!-- ████ கன்னி — ராசி 06 ████ -->
 
@@ -4170,77 +4130,6 @@ body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Ge
 
 <div class="essence-box"><div class="essence-txt">விருச்சிகம் மாற்றத்தின் கண்ணுக்கு தெரியாத சக்தியை ஆள்கிறது —<br>புத்தெழுச்சிக்காக அழிக்கும் சக்தி.</div></div>
 
-</div><!-- /page -->
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ராசி தத்துவம் – தனுசு · மகரம் · கும்பம்</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0a0a0a;--bg2:#111111;--gold:#c9a84c;--gold-lt:#e8c97a;--white:#f5f0e8;--white-dim:rgba(245,240,232,0.7);--muted:#7a7060;--border:rgba(201,168,76,0.2);--border-wk:rgba(255,255,255,0.06);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;line-height:1.7;}
-.page{max-width:860px;margin:0 auto;padding:24px 20px;}
-.part-break{border:none;border-top:1px solid var(--border);margin:80px 0;position:relative;}
-.part-break::after{content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 14px;color:var(--gold);font-size:14px;}
-.sign-hero{text-align:center;padding:80px 20px 50px;}
-.sign-symbol{font-size:80px;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:20px;display:block;}
-.sign-number{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sign-name{font-family:'Cinzel Decorative',serif;font-size:clamp(36px,8vw,68px);color:var(--gold-lt);letter-spacing:4px;line-height:1;margin-bottom:14px;}
-.sign-tagline{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,20px);color:var(--muted);margin-bottom:28px;}
-.sign-intro{font-size:clamp(15px,2vw,17px);color:var(--white-dim);max-width:640px;margin:0 auto;line-height:1.9;}
-.eyebrow{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:18px;}
-.section{padding:52px 0;border-bottom:1px solid var(--border-wk);}
-.section:last-child{border-bottom:none;}
-.sec-label{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:18px;}
-.sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(17px,3.2vw,26px);color:var(--gold-lt);margin-bottom:24px;line-height:1.3;}
-.body-text{font-size:clamp(15px,1.9vw,17px);color:var(--white-dim);line-height:1.95;margin-bottom:18px;}
-.italic-note{font-style:italic;font-weight:300;font-size:clamp(16px,2.2vw,19px);color:var(--gold-lt);border-left:2px solid var(--gold);padding:12px 0 12px 20px;margin:24px 0;opacity:.9;}
-.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:24px 0;}
-.core-cell{background:var(--bg2);padding:16px 14px;}
-.core-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:6px;}
-.core-val{font-size:15px;color:var(--white);}
-.tattva-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin:24px 0;}
-.tattva-card{border:1px solid var(--border);padding:18px 16px;background:rgba(201,168,76,0.03);}
-.tattva-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:7px;}
-.tattva-val{font-size:14px;color:var(--white-dim);line-height:1.55;}
-.cond-box{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:22px 0;}
-@media(max-width:480px){.cond-box{grid-template-columns:1fr;}}
-.cond-card{padding:18px;border:1px solid var(--border);}
-.cond-card.weak{border-left:3px solid rgba(255,255,255,0.2);}
-.cond-card.strong{border-left:3px solid var(--gold);}
-.cond-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;opacity:.6;margin-bottom:8px;}
-.cond-card.weak .cond-lbl{color:var(--white);}
-.cond-card.strong .cond-lbl{color:var(--gold);}
-.cond-txt{font-size:14px;color:var(--white-dim);line-height:1.7;}
-.list-group{margin:22px 0;}
-.list-group-title{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--gold-lt);letter-spacing:1px;margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(201,168,76,0.12);}
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;}
-.item-tag{display:flex;align-items:flex-start;gap:9px;font-size:14px;color:var(--white-dim);line-height:1.5;padding:5px 0;}
-.item-tag::before{content:'▸';color:var(--gold);font-size:9px;margin-top:4px;flex-shrink:0;opacity:.6;}
-.trans-table{width:100%;border-collapse:collapse;margin:22px 0;font-size:14px;}
-.trans-table th{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.6;padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);background:rgba(201,168,76,0.04);}
-.trans-table td{padding:10px 14px;border-bottom:1px solid var(--border-wk);color:var(--white-dim);vertical-align:top;}
-.trans-table tr:hover td{background:rgba(201,168,76,0.04);}
-.arr{color:var(--gold);opacity:.4;text-align:center;width:36px;}
-.force-section{margin:22px 0;}
-.force-cat{margin-bottom:22px;}
-.force-cat-title{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:12px;}
-.force-pills{display:flex;flex-wrap:wrap;gap:8px;}
-.pill{padding:5px 14px;border:1px solid var(--border);font-size:13px;color:var(--white-dim);background:rgba(201,168,76,0.04);}
-.essence-box{text-align:center;padding:44px 28px;border:1px solid var(--border);margin:44px 0;background:rgba(201,168,76,0.03);position:relative;}
-.essence-box::before{content:'ஒரே வரி சாரம்';position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--bg);padding:0 14px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);opacity:.7;}
-.essence-txt{font-family:'Cinzel Decorative',serif;font-size:clamp(13px,2.2vw,18px);color:var(--gold-lt);line-height:1.7;}
-</style>
-</head>
-<body>
-<div class="page">
 
 <!-- ████ தனுசு — ராசி 09 ████ -->
 
@@ -4633,103 +4522,6 @@ body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Ge
 
 <div class="essence-box"><div class="essence-txt">கும்பம் கூட்டு சிந்தனையின் கண்ணுக்கு தெரியாத ஓட்டத்தை ஆள்கிறது —<br>தனிநபர்களை ஒரு வளரும் சமூகமாக இணைக்கும் சக்தி.</div></div>
 
-</div><!-- /page -->
-</body>
-</html>
-
-
-<!DOCTYPE html>
-<html lang="ta">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ராசி தத்துவம் – மீனம் · கிரகங்கள் · முடிவு</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0a0a0a;--bg2:#111111;--gold:#c9a84c;--gold-lt:#e8c97a;--white:#f5f0e8;--white-dim:rgba(245,240,232,0.7);--muted:#7a7060;--border:rgba(201,168,76,0.2);--border-wk:rgba(255,255,255,0.06);}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Georgia,serif;line-height:1.7;}
-.page{max-width:860px;margin:0 auto;padding:24px 20px;}
-.part-break{border:none;border-top:1px solid var(--border);margin:80px 0;position:relative;}
-.part-break::after{content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--bg);padding:0 14px;color:var(--gold);font-size:14px;}
-.sign-hero{text-align:center;padding:80px 20px 50px;}
-.sign-symbol{font-size:80px;line-height:1;color:var(--gold);text-shadow:0 0 40px rgba(201,168,76,0.3);margin-bottom:20px;display:block;}
-.sign-number{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
-.sign-name{font-family:'Cinzel Decorative',serif;font-size:clamp(36px,8vw,68px);color:var(--gold-lt);letter-spacing:4px;line-height:1;margin-bottom:14px;}
-.sign-tagline{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,20px);color:var(--muted);margin-bottom:28px;}
-.sign-intro{font-size:clamp(15px,2vw,17px);color:var(--white-dim);max-width:640px;margin:0 auto;line-height:1.9;}
-.eyebrow{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.7;margin-bottom:18px;}
-.planet-hero{text-align:center;padding:60px 20px 40px;}
-.planet-symbol{font-size:60px;line-height:1;color:var(--gold);text-shadow:0 0 30px rgba(201,168,76,0.25);margin-bottom:16px;display:block;}
-.planet-name{font-family:'Cinzel Decorative',serif;font-size:clamp(28px,6vw,52px);color:var(--gold-lt);letter-spacing:3px;line-height:1;margin-bottom:10px;}
-.planet-tag{font-style:italic;font-weight:300;font-size:clamp(14px,2vw,18px);color:var(--muted);margin-bottom:20px;}
-.planet-intro{font-size:clamp(14px,1.8vw,16px);color:var(--white-dim);max-width:620px;margin:0 auto;line-height:1.85;}
-.section{padding:44px 0;border-bottom:1px solid var(--border-wk);}
-.section:last-child{border-bottom:none;}
-.sec-label{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:6px;text-transform:uppercase;color:var(--gold);opacity:.65;margin-bottom:16px;}
-.sec-title{font-family:'Cinzel Decorative',serif;font-size:clamp(16px,3vw,24px);color:var(--gold-lt);margin-bottom:20px;line-height:1.3;}
-.body-text{font-size:clamp(14px,1.9vw,16px);color:var(--white-dim);line-height:1.95;margin-bottom:16px;}
-.italic-note{font-style:italic;font-weight:300;font-size:clamp(15px,2vw,18px);color:var(--gold-lt);border-left:2px solid var(--gold);padding:10px 0 10px 18px;margin:20px 0;opacity:.9;}
-.core-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin:20px 0;}
-.core-cell{background:var(--bg2);padding:14px 12px;}
-.core-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:5px;}
-.core-val{font-size:14px;color:var(--white);}
-.tattva-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin:20px 0;}
-.tattva-card{border:1px solid var(--border);padding:16px 14px;background:rgba(201,168,76,0.03);}
-.tattva-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:6px;}
-.tattva-val{font-size:13px;color:var(--white-dim);line-height:1.5;}
-.cond-box{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:18px 0;}
-@media(max-width:480px){.cond-box{grid-template-columns:1fr;}}
-.cond-card{padding:16px;border:1px solid var(--border);}
-.cond-card.weak{border-left:3px solid rgba(255,255,255,0.2);}
-.cond-card.strong{border-left:3px solid var(--gold);}
-.cond-lbl{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;opacity:.6;margin-bottom:7px;}
-.cond-card.weak .cond-lbl{color:var(--white);}
-.cond-card.strong .cond-lbl{color:var(--gold);}
-.cond-txt{font-size:13px;color:var(--white-dim);line-height:1.65;}
-.list-group{margin:18px 0;}
-.list-group-title{font-family:'Cinzel Decorative',serif;font-size:11px;color:var(--gold-lt);letter-spacing:1px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(201,168,76,0.12);}
-.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:5px;}
-.item-tag{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--white-dim);line-height:1.5;padding:4px 0;}
-.item-tag::before{content:'▸';color:var(--gold);font-size:9px;margin-top:3px;flex-shrink:0;opacity:.6;}
-.trans-table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px;}
-.trans-table th{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);opacity:.6;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);background:rgba(201,168,76,0.04);}
-.trans-table td{padding:9px 12px;border-bottom:1px solid var(--border-wk);color:var(--white-dim);vertical-align:top;}
-.trans-table tr:hover td{background:rgba(201,168,76,0.04);}
-.arr{color:var(--gold);opacity:.4;text-align:center;width:32px;}
-.force-section{margin:18px 0;}
-.force-cat{margin-bottom:18px;}
-.force-cat-title{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--gold);opacity:.55;margin-bottom:10px;}
-.force-pills{display:flex;flex-wrap:wrap;gap:7px;}
-.pill{padding:4px 12px;border:1px solid var(--border);font-size:12px;color:var(--white-dim);background:rgba(201,168,76,0.04);}
-.memory-box{border:1px solid var(--border);padding:20px 22px;margin:20px 0;background:rgba(201,168,76,0.03);position:relative;}
-.memory-box::before{content:'நினைவு விதி';position:absolute;top:-9px;left:20px;background:var(--bg);padding:0 12px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);}
-.memory-row{display:flex;gap:14px;align-items:baseline;margin-bottom:8px;font-size:13px;}
-.memory-row:last-child{margin-bottom:0;}
-.mem-cat{color:var(--gold);min-width:110px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:2px;text-transform:uppercase;opacity:.7;}
-.mem-val{color:var(--white-dim);}
-.essence-box{text-align:center;padding:40px 26px;border:1px solid var(--border);margin:40px 0;background:rgba(201,168,76,0.03);position:relative;}
-.essence-box::before{content:'ஒரே வரி சாரம்';position:absolute;top:-9px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--bg);padding:0 14px;font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:4px;color:var(--gold);opacity:.7;}
-.essence-txt{font-family:'Cinzel Decorative',serif;font-size:clamp(12px,2vw,17px);color:var(--gold-lt);line-height:1.7;}
-.rasi-table{width:100%;border-collapse:collapse;margin:28px 0;font-size:13px;}
-.rasi-table th{font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:.6;padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);background:rgba(201,168,76,0.05);}
-.rasi-table td{padding:10px 12px;border-bottom:1px solid var(--border-wk);color:var(--white-dim);vertical-align:top;}
-.rasi-table tr:hover td{background:rgba(201,168,76,0.03);}
-.rasi-sign{color:var(--gold-lt);font-family:'Cinzel Decorative',serif;font-size:12px;}
-.gdivider{display:flex;align-items:center;gap:14px;margin:40px 0;}
-.gdivider-line{flex:1;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);opacity:.3;}
-.gdivider-dot{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);flex-shrink:0;}
-.ending{text-align:center;padding:100px 20px 80px;}
-.ending-ring{width:140px;height:140px;border-radius:50%;border:1px solid var(--gold);margin:0 auto 44px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 40px rgba(201,168,76,0.1);}
-.ending-icon{font-size:52px;color:var(--gold);}
-.ending-title{font-family:'Cinzel Decorative',serif;font-size:clamp(22px,5vw,40px);color:var(--gold-lt);margin-bottom:18px;letter-spacing:2px;}
-.ending-sub{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,20px);color:var(--muted);margin-bottom:44px;}
-.ending-verse{font-style:italic;font-weight:300;font-size:clamp(15px,2.2vw,19px);color:var(--white-dim);line-height:2.1;max-width:580px;margin:0 auto 50px;}
-.ending-note{font-family:'Raleway',sans-serif;font-size:10px;letter-spacing:5px;text-transform:uppercase;color:var(--muted);opacity:.6;}
-</style>
-</head>
-<body>
-<div class="page">
 
 <!-- ████ மீனம் — ராசி 12 ████ -->
 
@@ -5275,6 +5067,60 @@ body{background:var(--bg);color:var(--white);font-family:'Cormorant Garamond',Ge
   <div class="ending-note">ராசி தத்துவம் · உயிரோடும் பிரபஞ்சம் · முழுமையானது</div>
 </div>
 
+
+</div><!-- /lang-panel-ta -->
+
 </div><!-- /page -->
+
+<script>
+// ── THEME TOGGLE ──
+let isDark = true;
+
+function toggleTheme() {
+  isDark = !isDark;
+  const root = document.documentElement;
+  const label = document.getElementById('theme-label');
+  const iconDark = document.getElementById('theme-icon-dark');
+  const iconLight = document.getElementById('theme-icon-light');
+
+  if (isDark) {
+    root.removeAttribute('data-theme');
+    label.textContent = 'Light';
+    iconDark.style.display = '';
+    iconLight.style.display = 'none';
+  } else {
+    root.setAttribute('data-theme', 'light');
+    label.textContent = 'Dark';
+    iconDark.style.display = 'none';
+    iconLight.style.display = '';
+  }
+}
+
+// ── LANGUAGE TOGGLE ──
+let isEn = true;
+
+function toggleLang() {
+  isEn = !isEn;
+  const panelEn = document.getElementById('panel-en');
+  const panelTa = document.getElementById('panel-ta');
+  const label = document.getElementById('lang-label');
+  const html = document.getElementById('html-root');
+
+  if (isEn) {
+    panelEn.classList.add('active');
+    panelTa.classList.remove('active');
+    label.textContent = 'தமிழ்';
+    html.setAttribute('lang', 'en');
+  } else {
+    panelEn.classList.remove('active');
+    panelTa.classList.add('active');
+    label.textContent = 'English';
+    html.setAttribute('lang', 'ta');
+    // Scroll to top when switching
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+</script>
+
 </body>
 </html>
